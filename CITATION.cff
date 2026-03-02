@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+title: AD-Double-Axis-Transcriptomic-Network
+message: "If you use this transcriptomic network analysis pipeline, please cite it as below."
+type: software
+authors:
+  - family-names: Kaur
+    given-names: Sanampreet
+doi: 10.5281/zenodo.18833207
+version: 1.1
+date-released: 2026-03-02
+license: MIT
+repository-code: https://github.com/sanamsandhu001/AD-Double-Axis-Transcriptomic-Network
