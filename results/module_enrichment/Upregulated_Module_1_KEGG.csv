@@ -1,0 +1,3 @@
+"category","subcategory","ID","Description","GeneRatio","BgRatio","RichFactor","FoldEnrichment","zScore","pvalue","p.adjust","qvalue","geneID","Count"
+"Genetic Information Processing","Chromosome","hsa03082","ATP-dependent chromatin remodeling","7/64","85/7464",0.0823529411764706,9.60441176470588,7.41929673459668,7.11307993028332e-06,0.000810891112052298,0.000159840878434732,"11177/8099/80314/51773/1108/2186/6599",7
+"Genetic Information Processing","Transcription","hsa03022","Basal transcription factors","5/64","39/7464",0.128205128205128,14.9519230769231,8.12360869180798,1.81898661502693e-05,0.00103682237056535,0.000204375897119536,"27097/6882/8148/6872/129685",5
