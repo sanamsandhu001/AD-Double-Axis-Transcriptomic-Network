@@ -62,3 +62,19 @@ Bulk transcriptomic profiling of AD post-mortem tissue routinely detects thousan
 ├── Transcriptomic Analysis of AD.Rproj# RStudio Project environment
 ├── .gitignore                         # Local caches & runtime artifacts
 └── README.md
+## Citation
+
+If you use this codebase, network datasets, or prioritized hub targets in your research, please cite both the software archive and the accompanying study:
+
+### Software Archive (Zenodo)
+```bibtex
+@software{kaur_2026_zenodo_23529818,
+  author       = {Kaur, Sanampreet},
+  title        = {AD-Double-Axis-Transcriptomic-Network: A double axis transcriptomic network model of Alzheimer's disease cortex},
+  month        = oct,
+  year         = 2026,
+  publisher    = {Zenodo},
+  version      = {v2.1},
+  doi          = {10.5281/zenodo.23529818},
+  url          = {[https://doi.org/10.5281/zenodo.23529818](https://doi.org/10.5281/zenodo.23529818)}
+}
