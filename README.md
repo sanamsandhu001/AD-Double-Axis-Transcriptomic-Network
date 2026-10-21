@@ -1,69 +1,64 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18833207.svg)](https://doi.org/10.5281/zenodo.18833207)
-
 # AD-Double-Axis-Transcriptomic-Network
+
+[![GitHub release](https://img.shields.io/github/v/release/sanamsandhu001/AD-Double-Axis-Transcriptomic-Network)](https://github.com/sanamsandhu001/AD-Double-Axis-Transcriptomic-Network/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> **Integrative Transcriptomic and Protein–Protein Interaction Network Analysis Reveals Divergent Mitochondrial–Synaptic Suppression and Immune Network Activation in Alzheimer's Disease**
+
+This repository contains the R and Python analysis pipelines, network models, centrality data, and functional enrichment workflows supporting the systems-level dissection of Alzheimer's disease (AD) entorhinal cortex pathology.
+
+---
 
 ## Overview
 
-This repository contains a fully reproducible transcriptomic network analysis pipeline for Alzheimer’s disease cortex.
+Bulk transcriptomic profiling of AD post-mortem tissue routinely detects thousands of differentially expressed genes, making it challenging to differentiate upstream drivers from reactive consequences. This pipeline integrates:
 
-The study proposes a double-axis systems model in which:
-
-- Downregulated genes form structured synaptic modules exhibiting modular collapse.
-- Upregulated genes reflect regulatory and architectural expansion.
-- Network modularity significantly exceeds random expectation.
-
-The pipeline integrates:
-
-- Differential expression (limma)
-- STRING protein–protein interaction networks
-- Louvain community detection
-- Random network comparison
-- GO and KEGG enrichment
-- Robust hub identification
-- GWAS overlap analysis
+1. **Differential Expression Analysis:** Linear modeling via `limma` on laser-capture microdissected entorhinal cortex neurons (GEO: [GSE5281](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE5281)).
+2. **Protein–Protein Interaction (PPI) Networks:** Independent high-confidence interactomes (STRING v11.5, combined score ≥ 0.700) built for downregulated and upregulated axes.
+3. **Unsupervised Community Detection:** Louvain modularity optimization benchmarked across repeated stochastic runs and matched Erdős–Rényi random graphs ($G(n, m)$).
+4. **Resampling-Validated Hub Prioritization:** Dual-centrality candidate filtering (top decile of degree and normalized betweenness) tested against a 100-iteration, 10% edge-dropout bootstrap model.
+5. **GWAS Integration:** Systematic intersection of network hubs against genome-wide significant ($P < 5 \times 10^{-8}$) loci from the NHGRI-EBI GWAS Catalog.
 
 ---
 
-## Dataset
+## Key Findings
 
-- GEO accession: GSE5281  
-- Tissue: Human cortex  
-- Groups: Alzheimer’s disease vs Control  
-- Species: Homo sapiens  
-
----
-
-## Pipeline Structure
-
-00_setup_packages.R  
-01_data_preparation.R  
-02_differential_expression_limma.R  
-03_visualisation_plots.R  
-04_functional_enrichment_GO_KEGG.R  
-05_PPI_network_and_hub_genes.R  
-06_Louvain_module_detection.R  
-07_Module_Functional_Enrichment.R  
-08_publication_figures.R  
-09_GWAS_AD_overlap.R  
+* **Distinct Transcriptomic Scales:** 4,215 genes reached significance ($\text{adj. } P < 0.05$); downregulated genes (2,585 genes; 61.3%) significantly outnumbered upregulated genes (1,630 genes; 38.7%).
+* **Topological Non-Randomness:** Louvain clustering identified 20 communities in the downregulated interactome ($Q = 0.751$ vs. $0.351$ random null) and 21 communities in the upregulated interactome ($Q = 0.709$ vs. $0.439$ random null).
+* **Functional Modularity:**
+  * **Downregulated:** Synaptic vesicle cycle & transmission (M6, M9), ubiquitin–proteasome catabolism (M2), DNA repair & transcription (M7), and GPI/glycan biosynthesis (M5).
+  * **Upregulated:** Epigenetic regulation (M1), cytokine/JAK-STAT/PI3K-Akt signaling (M9), ECM/integrin signaling (M8), and innate immunity via TLR/NF-κB (M4).
+* **Hub Prioritization & Genetic Triangulation:** Identified 55 robust downregulated hubs (e.g., `NDUFB7`, `ATP5A1`, `ATP5B`, `SNAP25`, `GRIN1`) and 23 robust upregulated hubs (e.g., `EP300`, `NFKB1`, `IL6`, `PIK3R1`).
+* **GWAS Divergence:** Only a single robust hub gene—**`ATP5C1`** (downregulated mitochondrial ATP synthase subunit, bootstrap stability 0.98)—converged directly with AD GWAS-implicated risk loci, demonstrating that network hubs predominantly represent convergent downstream disease programs rather than primary germline risk drivers.
 
 ---
 
-## Reproducibility
+## Repository Structure
 
-To reproduce the full analysis, run scripts sequentially from 00 to 09 in a fresh R session.
-
-Session information is provided in `session_info.txt`.
-
----
-
-## Conceptual Contribution
-
-This project moves beyond gene-level differential expression toward network-structured interpretation of Alzheimer’s disease transcriptomic remodeling.
-
-The results support a model of coordinated synaptic modular suppression embedded within reorganized interaction architecture.
-
----
-
-## Author
-
-Sanampreet Kaur
+```text
+├── data/
+│   ├── raw/                           # Raw expression & metadata downloads
+│   └── processed/                     # Quantile-normalized expression matrices
+├── scripts/
+│   ├── 01_data_preprocessing.R        # GEO download, probe summarization, normalization
+│   ├── 02_differential_expression.R   # limma empirical Bayes linear modeling
+│   ├── 03_ppi_network_construction.R  # STRINGdb mapping & igraph component extraction
+│   ├── 04_louvain_modularity.R        # Community detection & Erdos-Renyi null comparisons
+│   ├── 05_functional_enrichment.R     # clusterProfiler GO BP & KEGG over-representation
+│   ├── 06_bootstrap_hub_validation.py # NetworkX bootstrap edge-dropout (100 iterations)
+│   └── 07_gwas_intersection.R         # NHGRI-EBI catalog curation & hub matching
+├── figures/                           # Generated publication figures (PDF / PNG)
+│   ├── Figure1A_Volcano_Plot.png
+│   ├── Figure1B_Top50_Heatmap.png
+│   ├── Figure3_Modularity_Null_Plot.png
+│   ├── Figure5_Downregulated_Interactome.png
+│   ├── Figure6_Hub_Centrality_GWAS.png
+│   └── Figure7_Module_Enrichment_Dotplot.png
+├── results/                           # Output metric tables, gene lists, and statistics
+│   ├── Downregulated_Hub_GWAS_Overlap.csv
+│   ├── Upregulated_Hub_GWAS_Overlap.csv
+│   └── PPI_All_Nodes_Centrality_GWAS.csv
+├── GWAS_AD_associations.tsv           # Curated genome-wide significant AD associations
+├── Transcriptomic Analysis of AD.Rproj# RStudio Project environment
+├── .gitignore                         # Local caches & runtime artifacts
+└── README.md
